@@ -1,13 +1,10 @@
-FROM golang:1.9.4-stretch
+FROM golang:1.9.2-stretch
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     autoconf \
     automake \
-    clang \
     g++ \
     gcc \
-    graphviz \
-    jq \
     libc6-dev \
     libssl-dev \
     libsqlite3-dev \
@@ -74,13 +71,13 @@ RUN /usr/local/go/bin/go get -u github.com/golang/protobuf/protoc-gen-go
 
 ### INSTALL GOOGLE_CLOUD_SDK
 
-ENV CLOUD_SDK_VERSION 193.0.0
+ENV CLOUD_SDK_VERSION 195.0.0
 
 RUN echo "deb http://packages.cloud.google.com/apt cloud-sdk-jessie main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
 RUN apt-get update && apt-get install -y --no-install-recommends google-cloud-sdk=${CLOUD_SDK_VERSION}-0 google-cloud-sdk-app-engine-go google-cloud-sdk-datastore-emulator
 
-ENV GO_APPENGINE_SDK_VERSION 1.9.63
+ENV GO_APPENGINE_SDK_VERSION 1.9.64
 
 RUN wget -O go_appengine.zip "https://storage.googleapis.com/appengine-sdks/featured/go_appengine_sdk_linux_amd64-${GO_APPENGINE_SDK_VERSION}.zip"
 RUN unzip go_appengine.zip && rm go_appengine.zip && mv go_appengine /usr/local/go_appengine
